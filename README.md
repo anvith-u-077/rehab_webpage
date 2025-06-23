@@ -6,6 +6,9 @@ A web-based rehabilitation platform designed to assist patients in improving for
 ## Live Demo
 🌐 Website link: https://playprog-rehab-project.web.app
 
+##video link:
+https://drive.google.com/file/d/1H1n_EIEwnr0sCy6NS4HgP2LHu5cLhKPf/view?usp=sharing
+
 ## Project Overview
 This platform simulates a therapy environment where users wear sensor-equipped gloves and engage in game-based exercises.
 Therapists are required only once at the starting stage to judge the condition of the patient.
@@ -21,7 +24,7 @@ The Machine Learning model is designed to assist the therapist's role in adjusti
 - 🧠 **(Upcoming)** ML model to predict next difficulty level
 - 📊 **Sensor Data Logging** and Graph Visualization
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
            
 
@@ -52,8 +55,7 @@ Me: Anvith U
 📧 Email: anvith435@gmail.com
 🔗 LinkedIn: www.linkedin.com/in/anvithu
 
-video link:
-https://drive.google.com/file/d/1H1n_EIEwnr0sCy6NS4HgP2LHu5cLhKPf/view?usp=sharing
+
 
 
 
