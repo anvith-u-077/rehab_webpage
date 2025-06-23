@@ -23,7 +23,7 @@ The Machine Learning model is designed to assist the therapist's role in adjusti
 
 ## 🛠️ Technologies Used
 
-| Category     | Tools / Libraries             
+           
 
 | Frontend     | HTML, CSS, JavaScript         
 | Auth & DB    | Firebase Authentication, Firestore 
