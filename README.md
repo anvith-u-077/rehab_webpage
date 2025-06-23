@@ -1,4 +1,4 @@
-# Forearm Rehabilitation Through Difficulty-Graded Interactive Gaming
+# Playprog -Forearm Rehabilitation Through Difficulty-Graded Interactive Gaming
 
 
 A web-based rehabilitation platform designed to assist patients in improving forearm mobility (pronation and supination) movements through interactive gameplay, sensor integration, and progress tracking.
