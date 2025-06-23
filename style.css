@@ -1,0 +1,377 @@
+/* ------------------ Global Styles ------------------ */
+* { 
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html{
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  padding-top: 70px; 
+  padding-bottom: 30px;
+  color: #222;
+  background: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+  padding-bottom: 0; /* Removed extra bottom padding */
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ------------------ Navbar ------------------ */
+.navbar {
+display: flex;
+justify-content: space-between; /* Keeps space between logo/name and nav links */
+align-items: center; /* Vertically centers the items */
+background-color: #2f5fad;
+padding: 10px 20px;
+color: white;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+z-index: 1000;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+/* 
+#logo{
+  font-size: 3vw;
+  color: transparent;
+  background: linear-gradient(to right, orange,  #9399a4);
+  -webkit-background-clip: text;
+
+} */
+
+.navbar .logo-container {
+display: flex;
+align-items: center; /* Vertically centers the logo and text */
+}
+
+.navbar p {
+margin: 0 0 0 0px; /* Space between logo and text */
+font-family: 'Special Gothic Expanded One', cursive;
+font-size: 1.6rem;
+font-weight: bold;
+}
+
+.navbar img {
+height: 50px;
+width: 50px;
+background-color: #f0f4ff;
+border-radius: 100px;
+}
+
+.navbar nav {
+display: flex;
+align-items: center; /* Centers nav items vertically */
+}
+
+.navbar nav a {
+color: white;
+margin-left: 15px;
+text-decoration: none;
+font-weight: 400;
+font-size: medium;
+  
+}
+
+.navbar nav a:hover {
+text-decoration: underline;
+}
+
+
+/* User Action Buttons (Dashboard & Logout) */
+.user-actions {
+display: flex;
+gap: 15px;
+}
+
+.dashboard-btn, .logout-btn {
+padding: 10px 20px;
+border-radius: 10px;
+border: none;
+color: rgb(12, 0, 0);
+font-weight: bold;
+font-size: 1rem;
+}
+
+.dashboard-btn {
+background-color: white;
+border: 1px solid black;
+}
+
+.logout-btn {
+background-color: white;
+border: 1px solid black;
+}
+
+.dashboard-btn:hover, .logout-btn:hover {
+background-color:  #e0f0ff;
+cursor: pointer;
+}
+
+/* successfull signup message */
+.success-message {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2f5fad;
+  background-size: 80px 80px;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  padding: 15px 30px;
+  border-radius: 40px;
+  box-shadow: 0 8px 20px #2f5fad(248, 181, 0, 0.5);
+  z-index: 1000;
+  text-align: center;
+  animation: slideUpFade 3s ease forwards;
+}
+
+@keyframes slideUpFade {
+  0% { opacity: 1; transform: translate(-50%, 0); }
+  80% { opacity: 1; transform: translate(-50%, -20px); }
+  100% { opacity: 0; transform: translate(-50%, -40px); }
+}
+
+
+/* ------------------ Home Page Layout ------------------ */
+.home-body {
+  padding: 40px 20px;
+  background: linear-gradient(to right, #f5f8ff, #e0ecf6);
+  min-height: 80vh;
+}
+
+.home-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin: 20px;
+  margin-bottom: 30px;
+}
+
+/* Left: Feature Box */
+.features-box {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+}
+
+.features-box h1 {
+  color:#2f5fad ;
+  margin-bottom: 10px;
+}
+
+.features-box .intro {
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+.features-box ul {
+  padding-left: 20px;
+}
+
+.features-box ul li {
+  margin-bottom: 10px;
+}
+
+/* Right: Static Image */
+.image-box {
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+  
+}
+
+.image-box img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(5, 5, 5, 0.61);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.image-box img:hover {
+  transform: scale(1.01) translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* ----------- Rehab Journey (Icon + Title Only) ----------- */
+.rehab-journey {
+  background: linear-gradient(to bottom right, #e0f0ff, #f0f7ff);
+  padding: 30px 20px;
+  text-align: center;
+  margin: 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  clear: both; /* Ensures it doesn't collide with floating elements */
+}
+
+.rehab-journey h2 {
+  font-size: 1.5rem;
+  color: #2f5fad;
+  margin-bottom: 40px;
+}
+
+.journey-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.journey-step {
+  flex: 1;
+  min-width: 200px;
+  max-width: 250px;
+  background: white;
+  padding: 30px 10px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.journey-step:hover {
+  transform: translateY(-10px);
+}
+
+.step-icon {
+  font-size: 2.0rem;
+  margin-bottom: 10px;
+}
+
+.journey-step h3 {
+  color: #2f5fad;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.journey-step p {
+  margin: 0;
+  font-weight: 500;
+  color: #444;
+}
+
+/* get started button  */
+
+.get-started-container {
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.get-started-btn {
+  background-color:#2f5fadaf ; 
+  color: white;
+  font-size: 16px;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.get-started-btn:hover {
+  background-color: #2f5fad;
+}
+
+
+
+/* ------------------ Components ------------------ */
+.components {
+  text-align: center;
+  padding: 20px;
+  padding-bottom: 40px;
+  position: relative;
+  border-radius: 10px;
+  background: linear-gradient(to bottom right, #e0f0ff, #f0f7ff);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  margin: 20px;
+  margin-bottom: 30px; /* Consistent margin-bottom */
+}
+
+.component-wrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.component {
+  width: 250px;
+  height: 400px;
+  background-color: #1f4f9296;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.component img {
+  width: 60%;
+  height: 50%;
+  object-fit: contain;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 4px;
+}
+
+.component:hover {
+  transform: scale(1.05);
+}
+
+.components h2{
+  font-size: 1.5rem;
+  color: #2f5fad;
+  margin-bottom: 40px;
+}
+
+/* ------------------ Info Sections ------------------ */
+.info-section {
+  padding: 30px 20px;
+  text-align: center;
+  background: #eef0f4;
+  margin-top: 30px;
+}
+
+/* ------------------ Footer ------------------ */
+footer {
+  background-color: #1f4f92;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

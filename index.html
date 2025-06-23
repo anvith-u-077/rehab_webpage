@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rehab Game - Home</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Special+Gothic+Expanded+One&family=Tektur:wght@400..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">
+      <a href="index.html"><img src="assets/logo.png" alt="logo" /></a>
+      <p id="logo">Playprog</p> 
+    </div>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+      <a href="#about">About Us</a>
+      <a href="#contact">Contact Us</a>
+    </nav>
+
+    <div class="user-actions">
+      <button class="dashboard-btn" id="getStartedBtn" disabled>🚀 Get Started</button>
+    </div>
+  </header>
+
+  <!-- ⚠️ Custom Warning Message -->
+  <div id="customWarning" style="display:none; color: red; font-weight: bold; text-align: center; margin-top: 10px;">
+    ⚠ Please login or sign up first.
+  </div>
+
+  <main class="home-body">
+    <section class="rehab-journey">
+      <h2>Rehab Journey</h2>
+      <div class="journey-container">
+        <div class="journey-step">
+          <div class="step-icon">🔐</div>
+          <h3>User Authentication</h3>
+          <p>Signup/Login</p>
+        </div>
+        <div class="journey-step">
+          <div class="step-icon">🧾</div>
+          <h3>Patient Dashboard</h3>
+          <p>View & Manage</p>
+        </div>
+        <div class="journey-step">
+          <div class="step-icon">🎮</div>
+          <h3>Therapy Game</h3>
+          <p>Play & Improve</p>
+        </div>
+        <div class="journey-step">
+          <div class="step-icon">📊</div>
+          <h3>Performance Analysis</h3>
+          <p>Track Progress</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="home-container">
+      <section class="features-box">
+        <h1>Welcome to Rehabilitation Game</h1>
+        <p class="intro">An interactive rehab system for patients using sensors, ML, and games.</p>
+        <h2>Features</h2>
+        <ul>
+          <li>Sensor-based control using wrist motion</li>
+          <li>ML-driven level recommendations</li>
+          <li>Real-time data: force, pressure, gyro & more</li>
+          <li>Custom therapy sessions with progress tracking</li>
+        </ul>
+      </section>
+
+      <section class="image-box">
+        <img src="assets/main_image.png" alt="Rehabilitation Illustration" />
+      </section>
+    </div>
+
+    <section class="components">
+      <h2>How It Works</h2>
+      <div class="component-wrapper">
+        <div class="component hardware">
+          <img src="assets/hardware.png" alt="Hardware" />
+          <h3>Sensor & Hardware</h3>
+          <p>Uses Arduino Leonardo, motor encoder & sensors (FSR, Gyro, Accel) to capture wrist motion.</p>
+        </div>
+        <div class="component ml-model">
+          <img src="assets/ml.png" alt="ML Model" />
+          <h3>ML Prediction</h3>
+          <p>ML algorithm evaluates performance and predicts next rehab level.</p>
+        </div>
+        <div class="component game">
+          <img src="assets/game.png" alt="Game" />
+          <h3>Interactive Game</h3>
+          <p>The game adapts in difficulty and encourages recovery through gameplay.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- success message display  -->
+  <div id="successMessage" class="success-message" style="display:none;">
+    <span id="successText"></span>, <span id="welcomeName"></span>
+  </div>
+
+  <footer>
+    <p>© 2025 Rehab Game. All rights reserved.</p>
+  </footer>
+
+  <!-- External JS file handles button logic -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>

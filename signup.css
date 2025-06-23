@@ -1,0 +1,147 @@
+/* ----------- Reset & Base ----------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #e0f0ff, #f0f7ff);
+  font-family: 'Segoe UI', sans-serif;
+  padding-bottom: 80px;
+}
+
+/* ----------- Navbar ----------- */
+.navbar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #2f5fad;
+  padding: 10px 20px;
+  color: white;
+}
+
+.navbar p{
+  text-align: center;
+  font-size: large;
+  margin: 0px 0px 0px 20px;
+  font-family: 'Special Gothic Expanded One', cursive;
+  font-size: 1.6rem;
+}
+
+.navbar img {
+  height: 50px;
+  width: 50px;
+  background-color: #f0f4ff;
+  border-radius: 100px;
+}
+
+.navbar nav a {
+  color: white;
+  margin-left: 15px;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: medium;
+}
+
+.navbar nav a:hover {
+  text-decoration: underline;
+}
+
+/* ----------- Signup Box ----------- */
+.signup-box {
+  background-color: white;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  margin: 80px auto;
+}
+
+.signup-header h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2f5fad;
+}
+
+/* ----------- Input Fields ----------- */
+.input-box {
+  margin-bottom: 20px;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border 0.3s;
+}
+
+.input-box input:focus {
+  outline: none;
+  border-color: #2f5fad;
+}
+
+/* ----------- Submit Button ----------- */
+.input-submit button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background-color: #2f5fad;
+  color: white;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.input-submit button:hover {
+  background-color: #244c9a;
+}
+
+/* ----------- Login Redirect Link ----------- */
+.login-link {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.login-link a {
+  color: #2f5fad;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* ----------- Footer ----------- */
+footer {
+  background-color: #1f4f92;
+  color: white;
+  text-align: center;
+  padding: 15px 10px;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  z-index: 1000;
+}
+
+/* ----------- Responsive ----------- */
+@media (max-width: 600px) {
+  .signup-box {
+    padding: 20px;
+    margin: 60px 20px;
+  }
+
+  .input-box input {
+    padding: 10px;
+  }
+
+  .input-submit button {
+    padding: 10px;
+  }
+}

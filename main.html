@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Main Dashboard</title>
+
+  <!-- External Styles -->
+  <link rel="stylesheet" href="main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Tektur:wght@400..900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="left-side">
+      <div class="logo">
+        <img src="assets/logo.png" alt="logo" />
+      </div>
+      <p>Playprog</p>
+    </div>
+    <button id="logoutBtn">Logout</button>
+  </header>
+
+  <!-- Main Layout -->
+  <div class="dashboard-wrapper">
+
+    <!-- Left: Details Dashboard -->
+    <div id="dashboard" class="dashboard-container">
+      <h2>Details Dashboard</h2>
+      <p><strong>Name:</strong> <span id="userName"></span></p>
+      <p><strong>Date of Birth:</strong> <span id="userDOB"></span></p>
+      <p><strong>Password:</strong> <span id="userPassword"></span></p>
+
+      <label for="sessionNumber">Session Number (1-10):</label>
+      <input type="number" id="sessionNumber" min="1" max="10" />
+      <p id="sessionError" class="error-message"></p>
+
+      <label for="levelInput">Therapist Level (1-3):</label>
+      <input type="number" id="levelInput" min="1" max="3" />
+      <p id="levelError" class="error-message"></p>
+
+      <button id="startGameBtn">Start Game</button>
+    </div>
+
+    <!-- Right side: ML + Visualization -->
+    <div class="right-wrapper">
+
+      <!-- ML Model Dashboard -->
+      <div id="mlDashboard" class="analytics-panel">
+        <h2>ML Model Dashboard</h2>
+        <div style="margin-bottom: 15px;">
+          <button id="predictBtn">Predict</button>
+          <h5 >Coming soon...</h5>
+        </div>
+        <p><span>Current Level:</span> <span id="currentLevelOutput">--</span></p>
+        <p><span>Predicted Level:</span> <span id="predictedLevelOutput">--</span></p>
+      </div>
+
+      <!-- Visualization Dashboard -->
+      <div id="visualizationDashboard" class="analytics-panel">
+        <h2>Visualization Dashboard</h2>
+
+        <div style="display: flex; gap: 10px;">
+          <button id="visualizeBtn" disabled>📊 Game Report</button>
+          <button id="lockDataBtn" disabled>📈Visualize</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Chart Overlay -->
+  <div id="chartOverlay">
+  <div id="chartSection">
+    <button id="closeChartBtn">✖</button>
+    <div class="chart-header">
+      <button id="successRateBtn">📈 Success Rate</button>
+      <button id="timeTakenBtn">⏱️ Time Taken</button>
+    </div>
+    <canvas id="sessionChart"></canvas>
+  </div>
+</div>
+
+
+  <!-- Floating Table Overlay -->
+  <div id="tableOverlay" style="display: none;">
+    <div id="tableSection">
+      <div class="table-header">
+        <h3>📂 Game Sessions Overview</h3>
+        <button id="closeTableBtn">✖</button>
+      </div>
+      <div id="analyticsContainer"></div>
+    </div>
+  </div>
+
+  <!-- External JS -->
+  <script type="module" src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hat-trick Game</title>
+  <link rel="stylesheet" href="game.css" />
+  <style>
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    header {
+      margin: 15px;
+    }
+    #connectionStatus {
+      margin-top: 10px;
+      color: green;
+      font-weight: bold;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button id="connectButton">Connect to Arduino</button>
+    <button id="startButton" disabled>Start Game</button>
+    <p id="connectionStatus"></p>
+  </header>
+
+  <canvas id="gameCanvas" width="1100" height="550"></canvas>
+
+  <script src="game.js"></script>
+</body>
+</html>

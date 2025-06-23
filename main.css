@@ -1,0 +1,690 @@
+/* General Body Styling */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom right, #e0f0ff, #f0f7ff);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2f5fad;
+    color: white;
+    padding: 15px 20px;
+    height: 30px;
+}
+
+.navbar .left-side {
+    display: flex;
+    align-items: center;
+}
+
+.navbar p {
+margin: 0 0 0 0px; /* Space between logo and text */
+font-family: 'Poppins', sans-serif;
+font-size: 1.6rem;
+font-weight: bold;
+padding-left: 7px;
+
+}
+
+
+.navbar .logo img {
+    height: 40px;
+    border-radius: 100px;
+}
+
+#logoutBtn {
+    border-radius: 6px;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    background-color: #1b3154;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+#logoutBtn:hover {
+    background-color: #d32f2f;
+}
+
+/* Wrapper to place two divs side by side */
+.dashboard-wrapper {
+    display: flex;
+    justify-content: center; /* center horizontally */
+    gap: 40px;               /* spacing between panels */
+    padding: 20px;
+    margin-bottom: 70px;     /* space for fixed footer */
+    flex-wrap: wrap;         /* wrap on smaller screens */
+}
+
+/* Dashboard Styling  first div only*/
+.dashboard-container {
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 300px;
+    height: auto;
+    margin: 20px 60px; 
+}
+
+.dashboard-container h2 {
+    margin-top: 10px;
+    text-align: center;
+    color: #2f5fad;
+}
+
+.dashboard-container p {
+    font-size: 1.1rem;
+    margin: 10px 0;
+}
+
+.dashboard-container label {
+    font-weight: bold;
+    display: block;
+    margin-top: 5px;
+}
+
+
+
+/* Input Fields Styling */
+.dashboard-container input {
+    padding: 12px 15px;
+    font-size: 1rem;
+    width: 100%;
+    margin-top: 3px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+.dashboard-container input:focus {
+    outline: none;
+    border-color: #2f5fad;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.75rem;
+  margin: 2px 0;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+
+/* Start Game Button Styling */
+#startGameBtn {
+    width: 100%;
+    padding: 10px;
+    background-color: #2f5fad;
+    color: white;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    position: relative;  /* needed for lock icon positioning */
+}
+
+/* Hover effect when enabled */
+#startGameBtn:hover:not(:disabled) {
+    background-color: #1e3f8f;
+}
+
+/* Disabled button style with lock icon */
+#startGameBtn.disabled-with-icon,
+#startGameBtn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    pointer-events: none;
+    padding-left: 35px; /* space for the icon */
+}
+
+/* Lock icon before text */
+#startGameBtn.disabled-with-icon::before,
+#startGameBtn:disabled::before {
+    content: "🔒"; /* lock emoji, can replace with SVG/icon font if preferred */
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    user-select: none;
+}
+
+#sensor-panel {
+  background-color: white;
+  padding: 20px 30px;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 500px;
+  margin: auto;
+  margin-top: 20px;
+  text-align: left;
+}
+
+#sensor-panel h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #2f5fad;
+}
+
+#sensor-panel label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
+  color: #333;
+}
+
+#sensor-panel input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #f7f9fc;
+  font-size: 14px;
+  color: #333;
+}
+
+#sensor-panel button#analyticsBtn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  background-color: #2f5fad;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#sensor-panel button#analyticsBtn:hover {
+  background-color: #1e3f8f;
+}
+
+#sensorTable th, #sensorTable td {
+  padding: 12px 16px; /* More padding for better spacing */
+  text-align: left;
+  font-size: 14px;
+}
+
+/* Canvas Graph */
+#sensorChart {
+  margin-top: 30px;
+  width: 100% !important;
+  height: auto !important;
+}
+
+
+/* footer {
+  background-color: #1f4f92;
+  color: white;
+  text-align: center;
+  padding: 0px;
+  width: 100%;
+  bottom: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+/* === ANALYTICS BUTTON === */
+.dashboard-wrapper {
+  display: flex;
+  gap: 30px;
+  padding: 50px;
+  align-items: flex-start;
+}
+
+.dashboard-container, .analytics-panel {
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.555);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(130, 138, 168, 0.7);
+}
+
+/* Styling for the visualization button */
+#visualizeBtn {
+  background-color: #2f5fad;
+  color: white;
+  padding: 10px 18px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#visualizeBtn:disabled {
+  background-color: #2f5fad;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Table styling (optional, from earlier) */
+.analytics-panel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+.analytics-panel th, .analytics-panel td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: center;
+}
+.analytics-panel th {
+  background-color: #2f62b3b1;
+}
+
+.analytics-panel h2{
+  margin-top: 10px;
+  text-align: center;
+  color: #2f5fad;
+}
+
+
+/* Chart Section Styling */
+
+
+
+/* Optional: refine button spacing */
+#lockDataBtn {
+  margin-left: 15px;
+  padding: 10px 18px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2f5fad;
+  color: white;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  transition: background-color 0.2s ease, box-shadow 0.3s ease;
+}
+
+/* Glowing effect when enabled */
+#lockDataBtn:enabled {
+  box-shadow: 0 0 10px 2px rgba(12, 35, 150, 0.687);
+}
+
+/* Disabled style */
+#lockDataBtn:disabled {
+  background-color: #2f5fade1;
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+
+
+
+
+
+#chartOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+#closeChartBtn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Toggle Buttons inside Chart Overlay */
+#chartOverlay button#successRateBtn,
+#chartOverlay button#timeTakenBtn {
+  padding: 8px 14px;
+  margin: 5px;
+  background-color: #2f5fad;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+#chartOverlay button#successRateBtn:hover,
+#chartOverlay button#timeTakenBtn:hover {
+  background-color: #2f5fad;
+}
+
+/* Optional: For consistent layout inside the floating chart */
+
+
+#chartOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+
+
+#closeChartBtn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: transparent;
+  color: #444;
+  border: none;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.3s ease;
+}
+
+#closeChartBtn:hover {
+  color: #e15759;
+}
+
+/* Overlay background */
+#chartOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+
+
+/* Buttons above the chart */
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+/* Container wrapping canvas to restrict overflow */
+.chart-container {
+  width: 100%;
+  overflow-x: auto;
+}
+/* Overlay: transparent background to show page behind */
+#chartOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3); /* Slight overlay dim */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  overflow: auto;
+  padding: 20px;
+}
+
+/* Floating Card-style Chart Box (matches session overview look) */
+
+
+
+
+/* Close button styling */
+#closeChartBtn {
+  background: rgba(255, 0, 0, 0.717);
+  border-radius: 7px;
+  border: none;
+  font-size: 22px;
+  color: rgb(235, 222, 222);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+#closeChartBtn:hover {
+  color: #1a1717;
+}
+
+/* Button styling (Success Rate / Time Taken) */
+#successRateBtn,
+#timeTakenBtn {
+  background-color: #e5e5e5;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#successRateBtn:hover,
+#timeTakenBtn:hover {
+  background-color: #ccc;
+}
+
+
+/* Main wrapper layout */
+.dashboard-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 40px 60px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* Left: Details Dashboard */
+.dashboard-container {
+  background-color: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 360px; /* reduced from 400px */
+  flex-shrink: 0;
+}
+
+/* Right wrapper holding ML and Visualization panels */
+.right-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 420px; /* fixed width to match both inner panels */
+}
+
+/* ML + Visualization panels */
+.analytics-panel {
+  background-color: white !important; /* force white background */
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(130, 138, 168, 0.7);
+  width: 100%; /* fill full width of .right-wrapper */
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .dashboard-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .right-wrapper {
+    width: 100%;
+    max-width: 420px;
+  }
+}
+
+
+#predictBtn{
+  background-color: #2f5fad;
+  color: white;
+  padding: 10px 18px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+
+}
+
+#tableOverlay {
+  position: fixed;
+  top: 8%;
+  left: 5%;
+  width: 85%;
+  height: 80%;
+  background: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  border-radius: 20px;
+  z-index: 999;
+  overflow: auto;
+  padding: 20px;
+  display: none;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
+#closeTableBtn {
+  background-color: rgba(220, 20, 60, 0.968);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#successRateBtn,
+#timeTakenBtn {
+  transition: background-color 0.3s ease;
+}
+
+
+/* Table styling */
+.analytics-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 25px;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.analytics-table caption {
+  caption-side: top;
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding: 10px;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #ddd;
+}
+
+.analytics-table th,
+.analytics-table td {
+  padding: 10px 20px;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+.table-wrapper {
+  margin-bottom: 30px;
+}
+
+/* Chart overlay fix */
+#chartOverlay {
+  overflow: visible !important;
+  height: auto !important;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.98);
+}
+#chartOverlay {
+  overflow: visible;
+  height: auto;
+  padding-bottom: 50px;
+  background-color: white;
+}
+
+/* Floating overlay background (semi-transparent) */
+#chartOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Dimmed background */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Floating chart box */
+/* Floating chart box with auto height */
+#chartSection {
+  background: white;
+  padding: 20px 25px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 650px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.25);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto; /* <-- Fix: removes extra space */
+  max-height: 90vh; /* limits height on smaller screens */
+  overflow: hidden;
+}
+
+
+/* Chart canvas */
+#sessionChart {
+  width: 100% !important;
+  max-height: 300px;
+  height: auto !important;
+}
+
+
+
+

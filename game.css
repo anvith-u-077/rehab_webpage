@@ -1,0 +1,138 @@
+body {
+  background-color: #323232;
+  color: white;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #323232;
+  gap: 10px;
+}
+
+#connectButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #1f4f92;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(245, 244, 244, 0.5);
+  transition: background-color 0.3s ease;
+}
+
+#connectButton:hover:not(:disabled) {
+  background-color: #5989cb;
+}
+
+#connectButton:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+#startButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.5);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.3s ease;
+}
+
+#startButton.disabled,
+#startButton:disabled {
+  background-color: #888;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+#disabledIcon {
+  font-size: 18px;
+  user-select: none;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+#startLoggingButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.5);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.3s ease;
+  margin-left: 10px; /* space from other buttons */
+}
+
+#startLoggingButton:disabled {
+  background-color: #888;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+#startLoggingButton:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+
+#gameCanvas {
+  margin-top: 7px;
+  margin-bottom: 5px;
+  border: 2px solid white;
+  background-color: #323232;
+  display: block;
+  border-radius: 10px;
+  max-width: 100%;
+}
+
+
+#goHomeButton {
+  padding: 12px 24px;
+  font-size: 18px;
+  background-color: #1f4f92;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(31, 79, 146, 0.6);
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+  align-self: center; /* centers button horizontally in flex container */
+}
+
+#goHomeButton:hover {
+  background-color: #5989cb;
+}
+
+#goHomeButton:active {
+  background-color: #1660bf;
+}
