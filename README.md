@@ -53,7 +53,7 @@ Me: Anvith U
 🔗 LinkedIn: www.linkedin.com/in/anvithu
 
 video link:
-https://drive.google.com/drive/folders/1vhve9bkXC2OSK6Eqt00eWeLrnvpEIdNF?usp=sharing
+https://drive.google.com/file/d/1H1n_EIEwnr0sCy6NS4HgP2LHu5cLhKPf/view?usp=sharing
 
 
 
