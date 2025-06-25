@@ -65,50 +65,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Firebase auth state change listener to enable/disable Get Started button
   onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      try {
-        const userDocRef = doc(db, "users", user.uid);
-        const userDocSnap = await getDoc(userDocRef);
+  const getStartedBtn = document.getElementById("getStartedBtn");
 
-        if (!userDocSnap.exists()) {
-          // If no user data found in Firestore, sign out and disable button
-          await auth.signOut();
-          if (getStartedBtn) {
-            getStartedBtn.disabled = true;
-            getStartedBtn.classList.add("disabled");
-            getStartedBtn.onclick = null;
-          }
-          return;
-        }
+  if (!getStartedBtn) return; // safety check
 
-        const userData = userDocSnap.data();
+  if (user) {
+    try {
+      const userDocRef = doc(db, "users", user.uid);
+      const userDocSnap = await getDoc(userDocRef);
 
-        if (getStartedBtn) {
-          getStartedBtn.disabled = false;
-          getStartedBtn.classList.remove("disabled");
-          getStartedBtn.onclick = () => {
-            window.location.href = `main.html?uid=${user.uid}`;
-          };
-        }
-
-        if (welcomeName) {
-          welcomeName.textContent = userData.firstName || "User";
-        }
-      } catch {
-        if (getStartedBtn) {
-          getStartedBtn.disabled = true;
-          getStartedBtn.classList.add("disabled");
-          getStartedBtn.onclick = null;
-        }
-      }
-    } else {
-      if (getStartedBtn) {
+      if (userDocSnap.exists()) {
+        getStartedBtn.disabled = false;
+        getStartedBtn.style.display = "inline-block";
+        getStartedBtn.classList.remove("disabled");
+        getStartedBtn.onclick = () => {
+          window.location.href = `main.html?uid=${user.uid}`;
+        };
+      } else {
+        // If no user doc found
+        await auth.signOut();
         getStartedBtn.disabled = true;
-        getStartedBtn.classList.add("disabled");
-        getStartedBtn.onclick = null;
+        getStartedBtn.style.display = "none";
       }
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+      getStartedBtn.disabled = true;
+      getStartedBtn.style.display = "none";
     }
-  });
+  } else {
+    // Not logged in
+    getStartedBtn.disabled = true;
+    getStartedBtn.style.display = "none";
+  }
+});
+
 
   // Show success messages for signup/login
   const urlParams = new URLSearchParams(window.location.search);
@@ -254,7 +244,7 @@ if (forgotPasswordLink) {
 
 
 // ✅ Floating login/signup prompt on index.html, 3 times only per visit
-// Show floating login/signup prompt ONLY on index.html for non-logged-in users
+
 // Show floating login/signup prompt ONLY on index.html
 if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
   setTimeout(() => {
