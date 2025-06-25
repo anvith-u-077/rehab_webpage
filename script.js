@@ -231,6 +231,7 @@ if (forgotPasswordLink) {
     try {
       // Check if email exists in Firebase Auth via fetchSignInMethodsForEmail
       const methods = await fetchSignInMethodsForEmail(auth, email);
+      console.log("Fetched methods:", methods); 
       if (methods.length === 0) {
         alert("This email is not registered with us.");
         return;
