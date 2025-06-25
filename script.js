@@ -219,7 +219,6 @@ if (signupForm) {
     });
   }
 
-  //forgot password logic
   // Forgot password logic with Firebase Auth email existence check
 const forgotPasswordLink = document.getElementById("forgotPasswordLink");
 
@@ -250,5 +249,51 @@ if (forgotPasswordLink) {
       alert("❌ Failed to send reset email: " + error.message);
     }
   });
+  const getStartedBtn = document.getElementById("getStartedBtn");
+getStartedBtn.style.display = "none"; // Hide by default
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    const userDocRef = doc(db, "users", user.uid);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (userDocSnap.exists()) {
+      getStartedBtn.style.display = "inline-block";
+      getStartedBtn.onclick = () => {
+        window.location.href = `main.html?uid=${user.uid}`;
+      };
+    }
+  }
+});
+
+
+
+  // Floating login/signup prompt after 5s if not logged in
+  setTimeout(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        const floatPrompt = document.createElement("div");
+        floatPrompt.textContent = "👉 Please login or sign up to get started!";
+        floatPrompt.style.cssText = `
+          position: fixed;
+          top: 70px;
+          right: 20px;
+          background: #f0f8ff;
+          padding: 12px 20px;
+          border: 2px solid #2f5fad;
+          border-radius: 10px;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+          font-family: 'Poppins', sans-serif;
+          z-index: 999;
+        `;
+        document.body.appendChild(floatPrompt);
+
+        setTimeout(() => {
+          floatPrompt.remove();
+        }, 5000);
+      }
+    });
+  }, 5000);
+  
 }
 });
