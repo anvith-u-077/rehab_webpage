@@ -4,7 +4,9 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 import {
   getFirestore,
@@ -28,6 +30,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
 
 document.addEventListener("DOMContentLoaded", () => {
   const getStartedBtn = document.getElementById("getStartedBtn");
@@ -35,14 +38,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const successText = document.getElementById("successText");
   const welcomeName = document.getElementById("welcomeName");
 
-  // Disable Get Started button immediately on page load
   if (getStartedBtn) {
     getStartedBtn.disabled = true;
     getStartedBtn.classList.add("disabled");
     getStartedBtn.onclick = null;
   }
 
-  // Email validation function
   function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const allowedDomains = ["gmail.com", "yahoo.com", "outlook.com"];
@@ -52,13 +53,11 @@ document.addEventListener("DOMContentLoaded", () => {
     return allowedDomains.includes(domain);
   }
 
-  // Password validation function
   function isValidPassword(password) {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
     return passwordRegex.test(password);
   }
 
-  // Firebase auth state change listener to enable/disable Get Started button
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       try {
@@ -66,7 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const userDocSnap = await getDoc(userDocRef);
 
         if (!userDocSnap.exists()) {
-          // If no user data found in Firestore, sign out and disable button
           await auth.signOut();
           if (getStartedBtn) {
             getStartedBtn.disabled = true;
@@ -105,7 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Show success messages for signup/login
   const urlParams = new URLSearchParams(window.location.search);
   const isSignupSuccess = urlParams.get("signup") === "success";
   const isLoginSuccess = urlParams.get("login") === "success";
@@ -122,7 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 5000);
   }
 
-  // Signup form logic
   const signupForm = document.getElementById("signupForm");
   if (signupForm) {
     signupForm.addEventListener("submit", async (e) => {
@@ -160,7 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Login form logic
   const loginForm = document.getElementById("loginForm");
   if (loginForm) {
     loginForm.addEventListener("submit", async (e) => {
@@ -189,6 +184,31 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "index.html?login=success";
       } catch (error) {
         alert("Login failed: " + error.message);
+      }
+    });
+  }
+
+  const googleLoginBtn = document.getElementById("googleLoginBtn");
+  if (googleLoginBtn) {
+    googleLoginBtn.addEventListener("click", async () => {
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+
+        const userDocRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userDocRef);
+
+        if (!userSnap.exists()) {
+          await setDoc(userDocRef, {
+            email: user.email,
+            firstName: user.displayName || "",
+            dob: ""
+          });
+        }
+
+        window.location.href = "index.html?login=success";
+      } catch (error) {
+        alert("Google Sign-In failed: " + error.message);
       }
     });
   }
