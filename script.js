@@ -219,6 +219,7 @@ if (signupForm) {
     });
   }
 
+  //forgot password logic
   // Forgot password logic with Firebase Auth email existence check
 const forgotPasswordLink = document.getElementById("forgotPasswordLink");
 
@@ -249,26 +250,13 @@ if (forgotPasswordLink) {
       alert("❌ Failed to send reset email: " + error.message);
     }
   });
-  const getStartedBtn = document.getElementById("getStartedBtn");
-getStartedBtn.style.display = "none"; // Hide by default
-
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    const userDocRef = doc(db, "users", user.uid);
-    const userDocSnap = await getDoc(userDocRef);
-
-    if (userDocSnap.exists()) {
-      getStartedBtn.style.display = "inline-block";
-      getStartedBtn.onclick = () => {
-        window.location.href = `main.html?uid=${user.uid}`;
-      };
-    }
-  }
-});
+}
 
 
-
-  // Floating login/signup prompt after 5s if not logged in
+// ✅ Floating login/signup prompt on index.html, 3 times only per visit
+// Show floating login/signup prompt ONLY on index.html for non-logged-in users
+// Show floating login/signup prompt ONLY on index.html
+if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
   setTimeout(() => {
     onAuthStateChanged(auth, (user) => {
       if (!user) {
@@ -276,7 +264,7 @@ onAuthStateChanged(auth, async (user) => {
         floatPrompt.textContent = "👉 Please login or sign up to get started!";
         floatPrompt.style.cssText = `
           position: fixed;
-          top: 70px;
+          top: 130px;
           right: 20px;
           background: #f0f8ff;
           padding: 12px 20px;
@@ -294,6 +282,8 @@ onAuthStateChanged(auth, async (user) => {
       }
     });
   }, 5000);
-  
 }
+
+
+
 });
