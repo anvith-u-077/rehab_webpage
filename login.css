@@ -84,6 +84,7 @@ body {
 .input-box input:focus {
   outline: none;
   border-color: #2f5fad;
+  border-width: 1px;
 }
 
 /* ----------- Submit Button ----------- */
