@@ -89,7 +89,7 @@ window.onload = async function () {
 
   onAuthStateChanged(auth, async (user) => {
     if (!user || user.uid !== uid) {
-      alert("Unauthorized access. Please log in.");
+      alert("Are you sure you want to logout? You will be redirected to login page!");
       window.location.href = "login.html";
       return;
     }
