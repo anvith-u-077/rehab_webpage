@@ -88,32 +88,32 @@ window.onload = async function () {
   });
 
   onAuthStateChanged(auth, async (user) => {
-    if (!user || user.uid !== uid) {
+    if (!user) {
       alert("Unauthorized access. Please log in.");
       window.location.href = "login.html";
       return;
     }
 
-    try {
-      const userDocRef = doc(db, "users", uid);
-      const userDoc = await getDoc(userDocRef);
+  try {
+    const userDocRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userDocRef);
 
-      if (!userDoc.exists()) {
-        alert("User data not found.");
-        window.location.href = "login.html";
-        return;
-      }
-
-      const userData = userDoc.data();
-      document.getElementById("userName").textContent = userData.firstName || '';
-      document.getElementById("userDOB").textContent = userData.dob || '';
-      document.getElementById("userPassword").textContent = "********";
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      alert("Failed to load user data.");
+    if (!userDoc.exists()) {
+      alert("User data not found.");
       window.location.href = "login.html";
+      return;
     }
-  });
+
+    const userData = userDoc.data();
+    document.getElementById("userName").textContent = userData.firstName || '';
+    document.getElementById("userDOB").textContent = userData.dob || '';
+    document.getElementById("userPassword").textContent = "********";
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    alert("Failed to load user data.");
+    window.location.href = "login.html";
+  }
+});
 
   sessionInput.addEventListener("input", () => {
     const val = parseInt(sessionInput.value);
