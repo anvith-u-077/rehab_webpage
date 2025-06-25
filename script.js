@@ -216,7 +216,10 @@ const forgotPasswordLink = document.getElementById("forgotPasswordLink");
 if (forgotPasswordLink) {
   forgotPasswordLink.addEventListener("click", async (e) => {
     e.preventDefault();
-    const email = prompt("Please enter your registered email to reset your password:");
+    let email = prompt("Please enter your registered email to reset your password:");
+    if (email) {
+      email = email.trim().toLowerCase();
+    }
 
     if (!email) return alert("❗Email cannot be empty.");
 
