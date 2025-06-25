@@ -216,31 +216,34 @@ const forgotPasswordLink = document.getElementById("forgotPasswordLink");
 if (forgotPasswordLink) {
   forgotPasswordLink.addEventListener("click", async (e) => {
     e.preventDefault();
+
     let email = prompt("Please enter your registered email to reset your password:");
-    if (email) {
-      email = email.trim().toLowerCase();
+    if (!email) {
+      console.log("❗ No email entered.");
+      return alert("❗Email cannot be empty.");
     }
 
-    if (!email) return alert("❗Email cannot be empty.");
+    email = email.trim().toLowerCase(); // Remove spaces and normalize casing
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
+      console.log("❗ Invalid email format:", email);
       return alert("⚠️ Invalid email format.");
     }
 
     try {
-      // Check if email exists in Firebase Auth via fetchSignInMethodsForEmail
       const methods = await fetchSignInMethodsForEmail(auth, email);
-      console.log("Fetched methods:", methods); 
+      console.log("✅ Fetched methods:", methods); // DEBUG LOG
+
       if (methods.length === 0) {
-        alert("This email is not registered with us.");
+        alert("⚠️ This email is not registered with us.");
         return;
       }
 
       await sendPasswordResetEmail(auth, email);
-      alert(" Password reset email sent! Please check your inbox (including spam/promotions).");
+      alert("✅ Password reset email sent! Please check your inbox.");
     } catch (error) {
-      console.error("Reset error:", error);
+      console.error("❌ Reset error:", error);
       alert("❌ Failed to send reset email: " + error.message);
     }
   });
@@ -277,6 +280,7 @@ if (window.location.pathname.endsWith("index.html") || window.location.pathname 
     });
   }, 5000);
 }
+
 
 
 
