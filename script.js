@@ -1,3 +1,5 @@
+console.log("✅ script.js loaded");
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-analytics.js";
 import {
@@ -7,7 +9,7 @@ import {
   onAuthStateChanged,
   sendPasswordResetEmail,
   fetchSignInMethodsForEmail,
-  sendEmailVerification 
+  sendEmailVerification
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 import {
   getFirestore,
@@ -15,8 +17,6 @@ import {
   setDoc,
   getDoc
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
-
-
 
 // Firebase config
 const firebaseConfig = {
@@ -38,150 +38,145 @@ document.addEventListener("DOMContentLoaded", () => {
   const getStartedBtn = document.getElementById("getStartedBtn");
   const successMessage = document.getElementById("successMessage");
   const successText = document.getElementById("successText");
-  const welcomeName = document.getElementById("welcomeName");
 
-  // Disable Get Started button immediately on page load
   if (getStartedBtn) {
     getStartedBtn.disabled = true;
-    getStartedBtn.classList.add("disabled");
-    getStartedBtn.onclick = null;
+    getStartedBtn.style.display = "none";
   }
 
-  // Email validation function
   function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const allowedDomains = ["gmail.com", "yahoo.com", "outlook.com"];
     if (!emailRegex.test(email)) return false;
-
     const domain = email.split("@")[1].toLowerCase();
     return allowedDomains.includes(domain);
   }
 
-  // Password validation function
   function isValidPassword(password) {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
     return passwordRegex.test(password);
   }
 
-  // Firebase auth state change listener to enable/disable Get Started button
+  // ✅ Enable Get Started button for verified users
   onAuthStateChanged(auth, async (user) => {
-  const getStartedBtn = document.getElementById("getStartedBtn");
+    const getStartedBtn = document.getElementById("getStartedBtn");
+    if (!getStartedBtn) return;
 
-  if (!getStartedBtn) return; // safety check
+    if (user && user.emailVerified) {
+      try {
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
 
-  if (user) {
-    try {
-      const userDocRef = doc(db, "users", user.uid);
-      const userDocSnap = await getDoc(userDocRef);
-
-      if (userDocSnap.exists()) {
-        getStartedBtn.disabled = false;
-        getStartedBtn.style.display = "inline-block";
-        getStartedBtn.classList.remove("disabled");
-        getStartedBtn.onclick = () => {
-          window.location.href = `main.html?uid=${user.uid}`;
-        };
-      } else {
-        // If no user doc found
-        await auth.signOut();
+        if (userDocSnap.exists()) {
+          getStartedBtn.disabled = false;
+          getStartedBtn.style.display = "inline-block";
+          getStartedBtn.classList.remove("disabled");
+          getStartedBtn.onclick = () => {
+            window.location.href = `main.html?uid=${user.uid}`;
+          };
+        } else {
+          await auth.signOut();
+          getStartedBtn.disabled = true;
+          getStartedBtn.style.display = "none";
+        }
+      } catch (err) {
+        console.error("Error fetching user data:", err);
         getStartedBtn.disabled = true;
         getStartedBtn.style.display = "none";
       }
-    } catch (err) {
-      console.error("Error fetching user data:", err);
+    } else {
       getStartedBtn.disabled = true;
       getStartedBtn.style.display = "none";
     }
-  } else {
-    // Not logged in
-    getStartedBtn.disabled = true;
-    getStartedBtn.style.display = "none";
-  }
-});
+  });
 
-
-  // Show success messages for signup/login
+  // ✅ Show success message
   const urlParams = new URLSearchParams(window.location.search);
-  const isSignupSuccess = urlParams.get("signup") === "success";
-  const isLoginSuccess = urlParams.get("login") === "success";
+const isSignupSuccess = urlParams.get("signup") === "success";
+const isLoginSuccess = urlParams.get("login") === "success";
 
-  if ((isSignupSuccess || isLoginSuccess) && successMessage && successText) {
-    successText.textContent = isSignupSuccess
-      ? "Sign Up Successful! 🎉 Welcome"
-      : "Login Successful! 🎉 Welcome";
-    successMessage.style.display = "block";
+if ((isSignupSuccess || isLoginSuccess) && successMessage && successText) {
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      try {
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+        let name = "User";
 
-    setTimeout(() => {
-      successMessage.style.display = "none";
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }, 5000);
-  }
+        if (userDocSnap.exists()) {
+          name = userDocSnap.data().firstName || "User";
+        }
 
-// Signup form logic
-const signupForm = document.getElementById("signupForm");
+        successText.textContent = isSignupSuccess
+          ? `Sign Up Successful! 🎉 Welcome, ${name}`
+          : `Login Successful! 🎉 Welcome back, ${name}`;
+        successMessage.style.display = "block";
 
-if (signupForm) {
-  signupForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("signupemail").value.trim();
-    const password = document.getElementById("signuppassword").value;
-    const firstName = document.getElementById("signupname").value.trim();
-    const dob = document.getElementById("signupdate").value.trim();
-
-    if (!email || !password || !firstName || !dob) {
-      alert("❗ Please fill in all the fields.");
-      return;
-    }
-
-    // Basic password validation
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-    if (!passwordRegex.test(password)) {
-      alert("⚠️ Password must include uppercase, lowercase, number, special character, and be at least 8 characters long.");
-      return;
-    }
-
-    try {
-      // Create user in Firebase Auth
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
-      // Add user data to Firestore
-      await setDoc(doc(db, "users", user.uid), {
-        email,
-        firstName,
-        dob
-      });
-
-      // Send email verification
-      await sendEmailVerification(user);
-
-      alert("✅ Sign-up successful! A verification email has been sent to your inbox. Please verify before logging in.");
-
-      // Redirect to login after delay
-      setTimeout(() => {
-        window.location.href = "login.html";
-      }, 4000);
-
-    } catch (error) {
-      if (error.code === "auth/email-already-in-use") {
-        alert("⚠️ This email is already registered. Please log in instead.");
-      } else {
-        console.error("Signup error:", error);
-        alert("❌ Signup failed: " + error.message);
+        setTimeout(() => {
+          successMessage.style.display = "none";
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }, 5000);
+      } catch (err) {
+        console.error("Error fetching user name:", err);
       }
     }
   });
 }
 
 
+  // ✅ Signup logic
+  const signupForm = document.getElementById("signupForm");
+  if (signupForm) {
+    signupForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-  // Login form logic
+      const email = document.getElementById("signupemail").value.trim();
+      const password = document.getElementById("signuppassword").value;
+      const firstName = document.getElementById("signupname").value.trim();
+      const dob = document.getElementById("signupdate").value.trim();
+
+      if (!email || !password || !firstName || !dob) {
+        alert("❗ Please fill in all the fields.");
+        return;
+      }
+
+      if (!isValidPassword(password)) {
+        alert("⚠️ Password must include uppercase, lowercase, number, special character, and be at least 8 characters long.");
+        return;
+      }
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        await setDoc(doc(db, "users", user.uid), {
+          email,
+          firstName,
+          dob
+        });
+
+        await sendEmailVerification(user);
+        alert("✅ Sign-up successful! A verification email has been sent. Please verify before logging in.");
+
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 4000);
+      } catch (error) {
+        if (error.code === "auth/email-already-in-use") {
+          alert("⚠️ This email is already registered. Please log in instead.");
+        } else {
+          console.error("Signup error:", error);
+          alert("❌ Signup failed: " + error.message);
+        }
+      }
+    });
+  }
+
+  // ✅ Login logic
   const loginForm = document.getElementById("loginForm");
   if (loginForm) {
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-
       const email = document.getElementById("loginemail").value.trim();
       const password = document.getElementById("loginpasscode").value;
 
@@ -209,79 +204,90 @@ if (signupForm) {
     });
   }
 
-  //forgot password logic
-  // Forgot password logic with Firebase Auth email existence check
-const forgotPasswordLink = document.getElementById("forgotPasswordLink");
+  // ✅ Forgot Password
+  const forgotPasswordLink = document.getElementById("forgotPasswordLink");
+  if (forgotPasswordLink) {
+    forgotPasswordLink.addEventListener("click", async (e) => {
+      e.preventDefault();
+      let email = prompt("Please enter your registered email to reset your password:");
+      if (!email) return alert("❗Email cannot be empty.");
 
-if (forgotPasswordLink) {
-  forgotPasswordLink.addEventListener("click", async (e) => {
-    e.preventDefault();
+      email = email.trim().toLowerCase();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) return alert("⚠️ Invalid email format.");
 
-    let email = prompt("Please enter your registered email to reset your password:");
-    if (!email) {
-      console.log("❗ No email entered.");
-      return alert("❗Email cannot be empty.");
-    }
+      try {
+        const methods = await fetchSignInMethodsForEmail(auth, email);
+        if (methods.length === 0) {
+          alert("⚠️ This email is not registered with us.");
+          return;
+        }
 
-    email = email.trim().toLowerCase(); // Remove spaces and normalize casing
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      console.log("❗ Invalid email format:", email);
-      return alert("⚠️ Invalid email format.");
-    }
-
-    try {
-      const methods = await fetchSignInMethodsForEmail(auth, email);
-      console.log("✅ Fetched methods:", methods); // DEBUG LOG
-
-      if (methods.length === 0) {
-        alert("⚠️ This email is not registered with us.");
-        return;
-      }
-
-      await sendPasswordResetEmail(auth, email);
-      alert("✅ Password reset email sent! Please check your inbox.");
-    } catch (error) {
-      console.error("❌ Reset error:", error);
-      alert("❌ Failed to send reset email: " + error.message);
-    }
-  });
-}
-
-
-// ✅ Floating login/signup prompt on index.html, 3 times only per visit
-
-// Show floating login/signup prompt ONLY on index.html
-if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
-  setTimeout(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        const floatPrompt = document.createElement("div");
-        floatPrompt.textContent = "👉 Please login or sign up to get started!";
-        floatPrompt.style.cssText = `
-          position: fixed;
-          top: 130px;
-          right: 20px;
-          background: #f0f8ff;
-          padding: 12px 20px;
-          border: 2px solid #2f5fad;
-          border-radius: 10px;
-          box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-          font-family: 'Poppins', sans-serif;
-          z-index: 999;
-        `;
-        document.body.appendChild(floatPrompt);
-
-        setTimeout(() => {
-          floatPrompt.remove();
-        }, 5000);
+        await sendPasswordResetEmail(auth, email);
+        alert("✅ Password reset email sent! Please check your inbox.");
+      } catch (error) {
+        console.error("❌ Reset error:", error);
+        alert("❌ Failed to send reset email: " + error.message);
       }
     });
-  }, 5000);
-}
+  }
 
+  // ✅ Floating Prompt (index.html only)
+  if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
+    let floatCount = 0;
+    const maxFloats = 3;
 
+    const showFloatingMessage = () => {
+      if (floatCount >= maxFloats) return;
 
+      onAuthStateChanged(auth, (user) => {
+        if (!user) {
+          const floatPrompt = document.createElement("div");
+          floatPrompt.textContent = "👉 Please login or sign up to get started!";
+          floatPrompt.style.cssText = `
+            position: fixed;
+            top: 130px;
+            right: 20px;
+            background: #fff;
+            color: #2f5fad;
+            font-weight: 500;
+            padding: 12px 20px;
+            border: 2px solid transparent;
+            border-radius: 20px;
+            font-family: 'Poppins', sans-serif;
+            z-index: 999;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            animation: float-border 4s linear infinite;
+          `;
+          document.body.appendChild(floatPrompt);
 
+          setTimeout(() => floatPrompt.remove(), 5000);
+
+          floatCount++;
+          if (floatCount < maxFloats) {
+            setTimeout(showFloatingMessage, 7000);
+          }
+        }
+      });
+    };
+
+    // Add animation style
+    const style = document.createElement("style");
+    style.innerHTML = `
+      @keyframes float-border {
+        0% {
+          border: 2px solid #2f5fad;
+        }
+        50% {
+          border: 2px solid transparent;
+        }
+        100% {
+          border: 2px solid #2f5fad;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    setTimeout(showFloatingMessage, 1500);
+  }
 });
