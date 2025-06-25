@@ -144,9 +144,7 @@ background-color:  #e0f0ff;
 cursor: pointer;
 }
 
-.getStartedBtn{
-  display: none;
-}
+
 
 /* successfull signup message */
 .success-message {
