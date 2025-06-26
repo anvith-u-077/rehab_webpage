@@ -15,7 +15,9 @@ import {
   getFirestore,
   doc,
   setDoc,
-  getDoc
+  getDoc,
+  collection,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
 // Firebase config
@@ -115,7 +117,7 @@ if ((isSignupSuccess || isLoginSuccess) && successMessage && successText) {
         setTimeout(() => {
           successMessage.style.display = "none";
           window.history.replaceState({}, document.title, window.location.pathname);
-        }, 5000);
+        }, 6000);
       } catch (err) {
         console.error("Error fetching user name:", err);
       }
@@ -217,18 +219,36 @@ if ((isSignupSuccess || isLoginSuccess) && successMessage && successText) {
       if (!emailRegex.test(email)) return alert("⚠️ Invalid email format.");
 
       try {
-        const methods = await fetchSignInMethodsForEmail(auth, email);
-        if (methods.length === 0) {
-          alert("⚠️ This email is not registered with us.");
-          return;
-        }
+  const methods = await fetchSignInMethodsForEmail(auth, email);
 
-        await sendPasswordResetEmail(auth, email);
-        alert("✅ Password reset email sent! Please check your inbox.");
-      } catch (error) {
-        console.error("❌ Reset error:", error);
-        alert("❌ Failed to send reset email: " + error.message);
+  if (methods.length === 0) {
+    // Check Firestore in case email is present but signup wasn't completed
+    const usersRef = collection(db, "users");
+    const querySnapshot = await getDocs(usersRef);
+    let found = false;
+
+    querySnapshot.forEach((docSnap) => {
+      if (docSnap.data().email?.toLowerCase() === email) {
+        found = true;
       }
+    });
+
+    if (found) {
+      alert("⚠️ This email is registered but the account was not fully created or verified. Please sign up again.");
+    } else {
+      alert("⚠️ This email is not registered with us.");
+    }
+
+    return;
+  }
+
+  await sendPasswordResetEmail(auth, email);
+  alert("✅ Password reset email sent! Please check your inbox.");
+} catch (error) {
+  console.error("❌ Reset error:", error);
+  alert("❌ Failed to send reset email: " + error.message);
+}
+
     });
   }
 
