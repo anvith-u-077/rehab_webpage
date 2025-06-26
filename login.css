@@ -11,6 +11,7 @@ body {
   min-height: 100vh;
   background: linear-gradient(to bottom right, #e0f0ff, #f0f7ff);
   padding-bottom: 80px;
+  overflow-y: hidden;
 }
 
 
