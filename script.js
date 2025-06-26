@@ -205,34 +205,34 @@ if ((isSignupSuccess || isLoginSuccess) && successMessage && successText) {
     });
   }
 
-  // ✅ Forgot Password
-const forgotPasswordLink = document.getElementById("forgotPasswordLink");
-if (forgotPasswordLink) {
-  forgotPasswordLink.addEventListener("click", async (e) => {
-    e.preventDefault();
+//   // ✅ Forgot Password
+// const forgotPasswordLink = document.getElementById("forgotPasswordLink");
+// if (forgotPasswordLink) {
+//   forgotPasswordLink.addEventListener("click", async (e) => {
+//     e.preventDefault();
 
-    let email = prompt("Please enter your registered email to reset your password:");
-    if (!email) return alert("❗Email cannot be empty.");
+//     let email = prompt("Please enter your registered email to reset your password:");
+//     if (!email) return alert("❗Email cannot be empty.");
 
-    email = email.trim().toLowerCase();
-    console.log("🔍 Email entered:", email);
+//     email = email.trim().toLowerCase();
+//     console.log("🔍 Email entered:", email);
 
-    try {
-      const methods = await fetchSignInMethodsForEmail(auth, email);
+//     try {
+//       const methods = await fetchSignInMethodsForEmail(auth, email);
 
-      if (methods.length === 0) {
-        alert("⚠️ This email is not registered in our system. Please sign up first.");
-        return;
-      }
+//       if (methods.length === 0) {
+//         alert("⚠️ This email is not registered in our system. Please sign up first.");
+//         return;
+//       }
 
-      await sendPasswordResetEmail(auth, email);
-      alert("✅ Password reset email sent! Please check your inbox.");
-    } catch (error) {
-      console.error("❌ Reset error:", error);
-      alert("❌ Failed to send reset email: " + error.message);
-    }
-  });
-}
+//       await sendPasswordResetEmail(auth, email);
+//       alert("✅ Password reset email sent! Please check your inbox.");
+//     } catch (error) {
+//       console.error("❌ Reset error:", error);
+//       alert("❌ Failed to send reset email: " + error.message);
+//     }
+//   });
+// }
 
 
 
