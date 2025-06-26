@@ -1,5 +1,3 @@
-console.log("✅ script.js loaded");
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-analytics.js";
 import {
@@ -11,6 +9,7 @@ import {
   fetchSignInMethodsForEmail,
   sendEmailVerification
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
 import {
   getFirestore,
   doc,
@@ -207,50 +206,35 @@ if ((isSignupSuccess || isLoginSuccess) && successMessage && successText) {
   }
 
   // ✅ Forgot Password
-  const forgotPasswordLink = document.getElementById("forgotPasswordLink");
-  if (forgotPasswordLink) {
-    forgotPasswordLink.addEventListener("click", async (e) => {
-      e.preventDefault();
-      let email = prompt("Please enter your registered email to reset your password:");
-      if (!email) return alert("❗Email cannot be empty.");
+const forgotPasswordLink = document.getElementById("forgotPasswordLink");
+if (forgotPasswordLink) {
+  forgotPasswordLink.addEventListener("click", async (e) => {
+    e.preventDefault();
 
-      email = email.trim().toLowerCase();
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) return alert("⚠️ Invalid email format.");
+    let email = prompt("Please enter your registered email to reset your password:");
+    if (!email) return alert("❗Email cannot be empty.");
 
-      try {
-  const methods = await fetchSignInMethodsForEmail(auth, email);
+    email = email.trim().toLowerCase();
+    console.log("🔍 Email entered:", email);
 
-  if (methods.length === 0) {
-    // Check Firestore in case email is present but signup wasn't completed
-    const usersRef = collection(db, "users");
-    const querySnapshot = await getDocs(usersRef);
-    let found = false;
+    try {
+      const methods = await fetchSignInMethodsForEmail(auth, email);
 
-    querySnapshot.forEach((docSnap) => {
-      if (docSnap.data().email?.toLowerCase() === email) {
-        found = true;
+      if (methods.length === 0) {
+        alert("⚠️ This email is not registered in our system. Please sign up first.");
+        return;
       }
-    });
 
-    if (found) {
-      alert("⚠️ This email is registered but the account was not fully created or verified. Please sign up again.");
-    } else {
-      alert("⚠️ This email is not registered with us.");
+      await sendPasswordResetEmail(auth, email);
+      alert("✅ Password reset email sent! Please check your inbox.");
+    } catch (error) {
+      console.error("❌ Reset error:", error);
+      alert("❌ Failed to send reset email: " + error.message);
     }
-
-    return;
-  }
-
-  await sendPasswordResetEmail(auth, email);
-  alert("✅ Password reset email sent! Please check your inbox.");
-} catch (error) {
-  console.error("❌ Reset error:", error);
-  alert("❌ Failed to send reset email: " + error.message);
+  });
 }
 
-    });
-  }
+
 
   // ✅ Floating Prompt (index.html only)
   if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
