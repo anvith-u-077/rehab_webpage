@@ -9,6 +9,8 @@ A web-based rehabilitation platform designed to assist patients in improving for
 ##video link:
 https://drive.google.com/file/d/1H1n_EIEwnr0sCy6NS4HgP2LHu5cLhKPf/view?usp=sharing
 
+//the above video is only for illustration purpose, the actual working of the entire project is kept confidential due to security issues.
+
 ## Project Overview
 This platform simulates a therapy environment where users wear sensor-equipped gloves and engage in game-based exercises.
 Therapists are required only once at the starting stage to judge the condition of the patient.
