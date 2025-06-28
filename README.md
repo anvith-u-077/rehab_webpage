@@ -52,8 +52,7 @@ The Machine Learning model is designed to assist the therapist's role in adjusti
 - Planning and structuring ML model pipelines for health tech
 - Deploying scalable web apps using Firebase Hosting
 
-📞Contact
-Me: Anvith U
+📞Contact: Anvith U
 📧 Email: anvith435@gmail.com
 🔗 LinkedIn: www.linkedin.com/in/anvithu
 
