@@ -14,6 +14,8 @@ import {
   query,
   getDocs
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+import jsPDF from "https://cdn.skypack.dev/jspdf";
+import autoTable from "https://cdn.skypack.dev/jspdf-autotable";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD-u1XOfV0bCl2UqXvFTwFPqJ1b1RKcX5U",
@@ -48,9 +50,16 @@ window.onload = async function () {
   const timeBtn = document.getElementById("timeTakenBtn");
   const tableOverlay = document.getElementById("tableOverlay");
   const closeTableBtn = document.getElementById("closeTableBtn");
+  const exportRecentBtn = document.getElementById("exportRecentBtn");
+  const exportAllBtn = document.getElementById("exportAllBtn");
 
   let currentView = "successRate";
   let chart;
+  let gameEnded = false;
+
+  // 🔒 Initially disable export buttons
+  exportRecentBtn.disabled = true;
+  exportAllBtn.disabled = true;
 
   const urlParams = new URLSearchParams(window.location.search);
   const uid = urlParams.get("uid");
@@ -89,7 +98,7 @@ window.onload = async function () {
 
   onAuthStateChanged(auth, async (user) => {
     if (!user || user.uid !== uid) {
-      alert("Are you sure you want to logout? You will be redirected to login page!");
+      alert("You will be redirected to login page!");
       window.location.href = "login.html";
       return;
     }
@@ -136,7 +145,6 @@ window.onload = async function () {
     window.location.href = "login.html";
   });
 
-  let gameEnded = false;
   let checkClosedInterval = null;
 
   startGameBtn.addEventListener("click", async () => {
@@ -168,6 +176,8 @@ window.onload = async function () {
     levelInput.disabled = true;
     visualizeBtn.disabled = true;
     lockDataBtn.disabled = true;
+    exportRecentBtn.disabled = true;
+    exportAllBtn.disabled = true;
     gameEnded = false;
 
     checkClosedInterval = setInterval(() => {
@@ -199,9 +209,8 @@ window.onload = async function () {
 
       try {
         await addDoc(collection(db, `users/${uid}/gameSessions`), gameData);
-        console.log(`✅ Game session added under users/${uid}/gameSessions`);
       } catch (err) {
-        console.error("🔥 Failed to add game session to user subcollection:", err);
+        console.error("🔥 Failed to add game session:", err);
       }
 
       if (event.data.successRatio) {
@@ -261,6 +270,10 @@ window.onload = async function () {
       });
 
       tableOverlay.style.display = "block";
+
+      // ✅ Enable export buttons after visualization
+      exportRecentBtn.disabled = false;
+      exportAllBtn.disabled = false;
     } catch (err) {
       console.error("❌ Error visualizing data:", err);
       alert("Failed to fetch analytics data.");
@@ -337,5 +350,93 @@ window.onload = async function () {
         }
       }
     });
+  });
+
+  function generatePDFReport(userName, dob, dataArray, title = "Session Report") {
+    const doc = new jsPDF();
+    const currentDate = new Date();
+
+    doc.setFontSize(18);
+    doc.text(title, 14, 20);
+
+    doc.setFontSize(12);
+    doc.text(`Name: ${userName}`, 14, 30);
+    doc.text(`Date of Birth: ${dob}`, 14, 38);
+    doc.text(`Date: ${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}`, 14, 46);
+
+    const tableData = dataArray.map(item => [
+      item.session,
+      item.level,
+      item.successRate + "%",
+      item.timeTaken + "s",
+      new Date(item.timestamp).toLocaleString()
+    ]);
+
+    autoTable(doc, {
+      head: [['Session', 'Level', 'Success Rate', 'Time Taken', 'Played On']],
+      body: tableData,
+      startY: 55,
+    });
+
+    doc.save(`${title.replace(/ /g, '_')}.pdf`);
+  }
+
+  let userData = {};
+
+  try {
+    const userDocRef = doc(db, "users", uid);
+    const userDoc = await getDoc(userDocRef);
+    if (userDoc.exists()) {
+      userData = userDoc.data();
+    }
+  } catch (err) {
+    console.error("❌ Failed to fetch user info for PDF:", err);
+  }
+
+  exportRecentBtn?.addEventListener("click", async () => {
+    if (!gameEnded) {
+      alert("⚠️ Please play and visualize the game before exporting.");
+      return;
+    }
+
+    try {
+      const q = query(collection(db, `users/${uid}/gameSessions`));
+      const snapshot = await getDocs(q);
+      if (snapshot.empty) return alert("No session data found.");
+
+      let latestDoc = null;
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        if (!latestDoc || new Date(data.timestamp) > new Date(latestDoc.timestamp)) {
+          latestDoc = data;
+        }
+      });
+
+      generatePDFReport(userData.firstName, userData.dob, [latestDoc], "Recent Session Report");
+    } catch (err) {
+      alert("Failed to export recent session");
+      console.error(err);
+    }
+  });
+
+  exportAllBtn?.addEventListener("click", async () => {
+    if (!gameEnded) {
+      alert("⚠️ Please play and visualize the game before exporting.");
+      return;
+    }
+
+    try {
+      const q = query(collection(db, `users/${uid}/gameSessions`));
+      const snapshot = await getDocs(q);
+      if (snapshot.empty) return alert("No session data found.");
+
+      const allData = [];
+      snapshot.forEach(doc => allData.push(doc.data()));
+
+      generatePDFReport(userData.firstName, userData.dob, allData, "All Sessions Report");
+    } catch (err) {
+      alert("Failed to export all sessions");
+      console.error(err);
+    }
   });
 };
