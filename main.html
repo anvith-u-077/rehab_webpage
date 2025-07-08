@@ -11,6 +11,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Tektur:wght@400..900&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+
 </head>
 <body>
 
@@ -64,10 +68,17 @@
       <div id="visualizationDashboard" class="analytics-panel">
         <h2>Visualization Dashboard</h2>
 
-        <div style="display: flex; gap: 10px;">
-          <button id="visualizeBtn" disabled>📊 Game Report</button>
-          <button id="lockDataBtn" disabled>📈Visualize</button>
-        </div>
+       <!-- Inside Visualization Dashboard -->
+            <div style="display: flex; gap: 10px;">
+              <button id="visualizeBtn" disabled>📊 Game Report</button>
+              <button id="lockDataBtn" disabled>📈 Visualize</button>
+            </div>
+
+            <button id="exportRecentBtn" class="export-btn" disabled>Export Recent</button>
+            <button id="exportAllBtn" class="export-btn" disabled>Export All</button>
+
+
+
       </div>
     </div>
   </div>
