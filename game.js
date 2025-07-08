@@ -223,7 +223,7 @@ function startLevel(lv, ballsCount) {
 startButton.addEventListener("click", () => {
   if (!isNaN(levelParam) && levelParam >= 1 && levelParam <= 3 &&
       !isNaN(sessionParam) && sessionParam >= 1 && sessionParam <= 10) {
-    const ballsPerLevel = { 1: 50, 2: 100, 3: 150 };
+    const ballsPerLevel = { 1: 10, 2: 15, 3: 15 };
     startLevel(levelParam, ballsPerLevel[levelParam]);
     startButton.disabled = true;
   } else {
